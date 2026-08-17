@@ -58,10 +58,24 @@
 
         header {
             background-color: #fff;
-            padding: 15px 40px;
+            padding: 15px 20px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header-inner {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+        }
+
+        .header-logo svg {
+            height: 38px;
+            width: auto;
+            display: block;
         }
 
         .header-contact {
@@ -381,15 +395,28 @@
 <body>
 
     <header>
-        <div class="header-contact">
-            <svg viewBox="0 0 24 24">
-                <path d="M16 1H8C6.9 1 6 1.9 6 3v18c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H8V5h8v14z"/>
-            </svg>
-            <div class="phone">
-                <span>Kontakty</span>
-                <span>495 300 300</span>
+        <div class="header-inner">
+            <div class="header-logo">
+                <svg viewBox="0 0 230 75" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Stylizovaná postavička / střechovka ČSOB -->
+                    <circle cx="38" cy="14" r="11" fill="#00a4e4"/>
+                    <path d="M12 36 C12 24 22 22 38 22 C54 22 64 24 64 36 Z" fill="#00a4e4"/>
+                    <!-- Nápis ČSOB -->
+                    <text x="5" y="66" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="34" fill="#002d62">ČSOB</text>
+                    <!-- Nápis ID -->
+                    <text x="124" y="66" font-family="'Segoe UI', Arial, sans-serif" font-weight="bold" font-size="38" fill="#00a4e4" font-style="italic">ID</text>
+                </svg>
             </div>
-            <a href="#" class="lang-switch">EN</a>
+            <div class="header-contact">
+                <svg viewBox="0 0 24 24">
+                    <path d="M16 1H8C6.9 1 6 1.9 6 3v18c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H8V5h8v14z"/>
+                </svg>
+                <div class="phone">
+                    <span>Kontakty</span>
+                    <span>495 300 300</span>
+                </div>
+                <a href="#" class="lang-switch">EN</a>
+            </div>
         </div>
     </header>
 
